@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encuesta de Clima Laboral - FORZA DELIVERY LOGISTIC</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        forza: {
+                            navy: '#0B2545',
+                            blue: '#134074',
+                            accent: '#8DA9C4',
+                            light: '#EEF4F8'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .likert-btn input:checked + label {
+            border-color: #134074;
+            background-color: #EEF4F8;
+            color: #0B2545;
+            font-weight: 700;
+            box-shadow: 0 4px 10px -2px rgba(11, 37, 69, 0.15);
+            transform: translateY(-2px);
+        }
+        .fade-in {
+            animation: fadeIn 0.35s ease-in-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col justify-between">
+
+    <header class="bg-forza-navy text-white shadow-xl border-b-4 border-forza-blue sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3.5 flex items-center justify-between">
+            <div class="flex items-center space-x-3.5">
+                <!-- FORZA Delivery Logistic SVG Logo (Globe, Plane, Truck, Ship) -->
+                <div class="bg-white p-1 rounded-xl shadow-md flex items-center justify-center w-12 h-12 flex-shrink-0">
+                    <svg viewBox="0 0 100 100" class="w-full h-full text-forza-navy fill-current">
+                        <!-- Globe Base -->
+                        <circle cx="50" cy="45" r="28" fill="none" stroke="#0B2545" stroke-width="2.5"/>
+                        <!-- Ellipses / Orbit Trails -->
+                        <ellipse cx="50" cy="45" rx="28" ry="10" fill="none" stroke="#0B2545" stroke-width="1.8"/>
+                        <ellipse cx="50" cy="45" rx="10" ry="28" fill="none" stroke="#0B2545" stroke-width="1.8"/>
+                        <!-- Continents Outline Mock -->
+                        <path d="M 38 30 Q 42 25 50 28 Q 55 35 48 42 Q 42 45 38 30 Z" fill="#0B2545" opacity="0.8"/>
+                        <path d="M 52 50 Q 58 46 62 52 Q 60 62 52 58 Z" fill="#0B2545" opacity="0.8"/>
+                        <!-- Orbiting Airplane -->
+                        <path d="M 20 28 C 30 12, 70 12, 82 28" fill="none" stroke="#134074" stroke-width="2.2" stroke-dasharray="3,1.5"/>
+                        <path d="M 46 16 L 52 22 L 48 20 L 44 22 Z" fill="#134074"/>
+                        <!-- Cargo Ship (Bottom Left) -->
+                        <path d="M 25 65 L 42 65 L 38 72 L 28 72 Z" fill="#0B2545"/>
+                        <rect x="29" y="60" width="4" height="5" fill="#134074"/>
+                        <rect x="34" y="60" width="4" height="5" fill="#134074"/>
+                        <!-- Delivery Truck (Bottom Right) -->
+                        <path d="M 58 63 H 70 V 72 H 58 Z" fill="#0B2545"/>
+                        <path d="M 70 66 H 75 L 78 69 V 72 H 70 Z" fill="#0B2545"/>
+                        <circle cx="62" cy="73" r="2.5" fill="#EEF4F8" stroke="#0B2545" stroke-width="1.5"/>
+                        <circle cx="73" cy="73" r="2.5" fill="#EEF4F8" stroke="#0B2545" stroke-width="1.5"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="font-black text-lg sm:text-xl tracking-wider text-white uppercase leading-none">FORZA DELIVERY</h1>
+                    <span class="text-[11px] tracking-widest text-forza-accent font-semibold uppercase block mt-1">LOGISTIC • RECURSOS HUMANOS</span>
+                </div>
+            </div>
+            
+            <button onclick="toggleDashboard()" class="text-xs bg-forza-blue hover:bg-opacity-80 text-white border border-forza-accent/40 px-3 py-2 rounded-xl transition flex items-center gap-1.5 shadow-sm">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span class="hidden sm:inline font-medium">Panel RH</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto w-full p-4 sm:p-6 flex-grow">
+        
+        <!-- ACADEMIC INFORMATIONAL CARD (TEXT ONLY - NO LOGOS) -->
+        <section class="bg-white rounded-2xl p-5 mb-6 shadow-sm border border-slate-200/90 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-2 h-full bg-forza-navy"></div>
+            
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                <div>
+                    <div class="inline-flex items-center gap-1.5 bg-slate-100 text-forza-navy border border-slate-200 text-[11px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider mb-2">
+                        <i class="fa-solid fa-graduation-cap text-forza-blue"></i> Información Académica
+                    </div>
+                    <h2 class="text-base sm:text-lg font-black text-slate-900 leading-tight">
+                        Universidad Mariano Gálvez de Guatemala
+                    </h2>
+                    <p class="text-xs font-semibold text-forza-blue mt-0.5">
+                        Carrera: Psicología Industrial / Organizacional
+                    </p>
+                </div>
+
+                <div class="w-full sm:w-auto bg-slate-50 border border-slate-200 p-3 rounded-xl text-xs space-y-1">
+                    <div class="flex justify-between sm:justify-start sm:gap-3">
+                        <span class="text-slate-500 font-medium">Desarrollado por:</span>
+                        <span class="font-bold text-slate-900">Jeymi Ajcot</span>
+                    </div>
+                    <div class="flex justify-between sm:justify-start sm:gap-3">
+                        <span class="text-slate-500 font-medium">Carné:</span>
+                        <span class="font-mono font-bold text-slate-800">9430-24-17895</span>
+                    </div>
+                    <div class="flex justify-between sm:justify-start sm:gap-3">
+                        <span class="text-slate-500 font-medium">Modalidad:</span>
+                        <span class="font-bold text-forza-navy">Plan Domingo</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONFIDENTIALITY BADGE -->
+        <div class="bg-emerald-50 border-l-4 border-emerald-600 rounded-r-xl p-4 mb-6 shadow-2xs flex items-start gap-3">
+            <div class="text-emerald-600 mt-0.5 text-lg">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <div>
+                <h3 class="text-xs font-bold text-emerald-900 uppercase tracking-wider">Evaluación 100% Anónima y Confidencial</h3>
+                <p class="text-xs text-emerald-800 mt-0.5 leading-relaxed">
+                    Este instrumento no recopila datos de identificación personal (PII). Las respuestas son analizadas de forma cuantitativa y objetiva por el departamento de Recursos Humanos de FORZA DELIVERY LOGISTIC.
+                </p>
+            </div>
+        </div>
+
+        <!-- PROGRESS BAR -->
+        <div id="progressContainer" class="bg-white p-4 rounded-xl shadow-xs border border-slate-200 mb-6">
+            <div class="flex justify-between items-center text-xs font-semibold text-slate-500 mb-2">
+                <span id="progressText">Progreso del Formulario: 0%</span>
+                <span id="questionsAnswered">0 de 3 respondidas</span>
+            </div>
+            <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
+                <div id="progressBar" class="bg-forza-blue h-2.5 rounded-full transition-all duration-300 ease-out" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <!-- MAIN EVALUATION FORM -->
+        <form id="hrEvaluationForm" onsubmit="handleFormSubmit(event)" class="space-y-6">
+            
+            <!-- QUESTION 1 -->
+            <div class="bg-white p-5 sm:p-6 rounded-xl shadow-xs border border-slate-200 transition-all hover:border-slate-300">
+                <div class="flex items-start gap-3 mb-4">
+                    <span class="bg-forza-light text-forza-navy font-black text-xs px-2.5 py-1 rounded-md mt-0.5">01</span>
+                    <h3 class="text-slate-800 font-semibold text-base sm:text-lg leading-snug">
+                        Las instalaciones de la empresa son adecuadas y cómodas para realizar mi trabajo.
+                    </h3>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-5 gap-2.5 my-3">
+                    <div class="likert-btn relative">
+                        <input type="radio" id="q1_1" name="q1" value="1" class="peer hidden" onchange="updateProgress(); checkFeedbackTrigger('q1');" required>
+                        <label for="q1_1" class="flex sm:flex-col items-center justify-center p-3 text-center border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50 text-xs text-slate-600 h-full">
+                            <span class="font-bold sm:mb-1 mr-2 sm:mr-0 text-red-500">1</span>
+                            <span>Totalmente en desacuerdo</span>
+                        </label>
+                    </div>
+                    <div class="likert-btn relative">
+                        <input type="radio" id="q1_2" name="q1" value="2" class="peer hidden" onchange="updateProgress(); checkFeedbackTrigger('q1');">
+                        <label for="q1_2" class="flex sm:flex-col items-center justify-center p-3 text-center border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50 text-xs text-slate-600 h-full">
+                            <span class="font-bold sm:mb-1 mr-2 sm:mr-0 text-orange-500">2</span>
+                            <span>En desacuerdo</span>
+                        </label>
+                    </div>
+                    <div class="likert-btn relative">
+                        <input type="radio" id="q1_3" name="q1" value="3" class="peer hidden" onchange="updateProgress(); checkFeedbackTrigger('q1');">
+                        <label for="q1_3" class="flex sm:flex-col items-center justify-center p-3 text-center border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50 text-xs text-slate-600 h-full">
+                            <span class="font-bold sm:mb-1 mr-2 sm:mr-0 text-amber-500">3</span>
+                            <span>Neutral / Indiferente</span>
+                        </label>
+                    </div>
+                    <div class="likert-btn relative">
+                        <input type="radio" id="q1_4" name="q1" value="4" class="peer hidden" onchange="updateProgress(); checkFeedbackTrigger('q1');">
+                        <label for="q1_4" class="flex sm:flex-col items-center justify-center p-3 text-center border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50 text-xs text-slate-600 h-full">
+                            <span class="font-bold sm:mb-1 mr-2 sm:mr-0 text-lime-600">4</span>
+                            <span>De acuerdo</span>
+                        </label>
+                    </div>
+                    <div class="likert-btn relative">
+                        <input type="radio" id="q1_5" name="q1" value="5" class="peer hidden" onchange="updateProgress(); checkFeedbackTrigger('q1');">
+                        <label for="q1_5" class="flex sm:flex-col items-center justify-center p-3 text-center border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50 text-xs text-slate-600 h-full">
+                            <span class="font-bold sm:mb-1 mr-2 sm:mr-0 text-emerald-600">5</span>
+                            <span>Totalmente de acuerdo</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div id="q1_feedback_box" class="hidden mt-4 pt-3 border-t border-dashed border-amber-200 bg-amber-50/60 p-3.5 rounded-xl fade-in">
+                    <label for="q1_feedback" class="block text-xs font-semibold text-amber-900 mb-1 flex items-center gap-1.5">
+                        <i class="fa-solid fa-comment-dots text-amber-600"></i>
+                        ¿Qué aspecto específico considera que debe mejorarse en las instalaciones? (Opcional)
+                    </label>
+                    <textarea id="q1_feedback" name="q1_feedback" rows="2" class="w-full text-xs p-2.5 border border-amber-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none bg-white" placeholder="Ejemplo: Climatización, iluminación, higiene, mantenimiento..."></textarea>
+                </div>
+            </div>
+
+            <!-- QUESTION 2 -->
+            <div class="bg-white p-5 sm:p-6 rounded-xl shadow-xs border border-slate-200 transition-all hover:border-slate-300">
+                <div class="flex items-start gap-3 mb-4">
+                    <span class="bg-forza-light text-forza-navy font-black text-xs px-2.5 py-1 rounded-md mt-0.5">02</span>
+                    <h3 class="text-slate-800 font-semibold text-base sm:text-lg leading-snug">
+                        Tengo a mi disposición los materiales, equipos y software necesarios para hacer mis tareas de forma eficiente.
+                    </h3>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-5 gap-2.5 my-3">
+                    <div class="likert-btn relative">
+                        <input type="radio" id="q2_1" name="q2" value="1" class="peer hidden" onchange="updateProgress(); checkFeedbackTrigger('q2');" required>
+                        <label for="q2_1" class="flex sm:flex-col items-center justify-center p-3 text-center border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50 text-xs text-slate-600 h-full">
+                            <span class="font-bold sm:mb-1 mr-2 sm:mr-0 text-red-500">1</span>
+                            <span>Totalmente en desacuerdo</span>
+                        </label>
+                    </div>
+                    <div class="likert-btn relative">
+                        <input type="radio" id="q2_2" name="q2" value="2" class="peer hidden" onchange="updateProgress(); checkFeedbackTrigger('q2');">
+                        <label for="q2_2" class="flex sm:flex-col items-center justify-center p-3 text-center border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50 text-xs text-slate-600 h-full">
+                            <span class="font-bold sm:mb-1 mr-2 sm:mr-0 text-orange-500">2</span>
+                            <span>En desacuerdo</span>
+                        </label>
+                    </div>
+                    <div class="likert-btn relative">
+                        <input type="radio" id="q2_3" name="q2" value="3" class="peer hidden" onchange="updateProgress(); checkFeedbackTrigger('q2');">
+                        <label for="q2_3" class="flex sm:flex-col items-center justify-center p-3 text-center border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50 text-xs text-slate-600 h-full">
+                            <span class="font-bold sm:mb-1 mr-2 sm:mr-0 text-amber-500">3</span>
+                            <span>Neutral / Indiferente</span>
+                        </label>
+                    </div>
+                    <div class="likert-btn relative">
+                        <input type="radio" id="q2_4" name="q2" value="4" class="peer hidden" onchange="updateProgress(); checkFeedbackTrigger('q2');">
+                        <label for="q2_4" class="flex sm:flex-col items-center justify-center p-3 text-center border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50 text-xs text-slate-600 h-full">
+                            <span class="font-bold sm:mb-1 mr-2 sm:mr-0 text-lime-600">4</span>
+                            <span>De acuerdo</span>
+                        </label>
+                    </div>
+                    <div class="likert-btn relative">
+                        <input type="radio" id="q2_5" name="q2" value="5" class="peer hidden" onchange="updateProgress(); checkFeedbackTrigger('q2');">
+                        <label for="q2_5" class="flex sm:flex-col items-center justify-center p-3 text-center border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50 text-xs text-slate-600 h-full">
+                            <span class="font-bold sm:mb-1 mr-2 sm:mr-0 text-emerald-600">5</span>
+                            <span>Totalmente de acuerdo</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div id="q2_feedback_box" class="hidden mt-4 pt-3 border-t border-dashed border-amber-200 bg-amber-50/60 p-3.5 rounded-xl fade-in">
+                    <label for="q2_feedback" class="block text-xs font-semibold text-amber-900 mb-1 flex items-center gap-1.5">
+                        <i class="fa-solid fa-comment-dots text-amber-600"></i>
+                        ¿Qué herramienta, equipo o software específico requiere para mejorar su desempeño? (Opcional)
+                    </label>
+                    <textarea id="q2_feedback" name="q2_feedback" rows="2" class="w-full text-xs p-2.5 border border-amber-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none bg-white" placeholder="Ejemplo: Licencias de software, renovación de equipo, insumos físicos..."></textarea>
+                </div>
+            </div>
+
+            <!-- QUESTION 3 -->
+            <div class="bg-white p-5 sm:p-6 rounded-xl shadow-xs border border-slate-200 transition-all hover:border-slate-300">
+                <div class="flex items-start gap-3 mb-4">
+                    <span class="bg-forza-light text-forza-navy font-black text-xs px-2.5 py-1 rounded-md mt-0.5">03</span>
+                    <h3 class="text-slate-800 font-semibold text-base sm:text-lg leading-snug">
+                        Me siento seguro y protegido contra riesgos de salud o accidentes en mi espacio de trabajo.
+                    </h3>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-5 gap-2.5 my-3">
+                    <div class="likert-btn relative">
+                        <input type="radio" id="q3_1" name="q3" value="1" class="peer hidden" onchange="updateProgress(); checkFeedbackTrigger('q3');" required>
+                        <label for="q3_1" class="flex sm:flex-col items-center justify-center p-3 text-center border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50 text-xs text-slate-600 h-full">
+                            <span class="font-bold sm:mb-1 mr-2 sm:mr-0 text-red-500">1</span>
+                            <span>Totalmente en desacuerdo</span>
+                        </label>
+                    </div>
+                    <div class="likert-btn relative">
+                        <input type="radio" id="q3_2" name="q3" value="2" class="peer hidden" onchange="updateProgress(); checkFeedbackTrigger('q3');">
+                        <label for="q3_2" class="flex sm:flex-col items-center justify-center p-3 text-center border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50 text-xs text-slate-600 h-full">
+                            <span class="font-bold sm:mb-1 mr-2 sm:mr-0 text-orange-500">2</span>
+                            <span>En desacuerdo</span>
+                        </label>
+                    </div>
+                    <div class="likert-btn relative">
+                        <input type="radio" id="q3_3" name="q3" value="3" class="peer hidden" onchange="updateProgress(); checkFeedbackTrigger('q3');">
+                        <label for="q3_3" class="flex sm:flex-col items-center justify-center p-3 text-center border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50 text-xs text-slate-600 h-full">
+                            <span class="font-bold sm:mb-1 mr-2 sm:mr-0 text-amber-500">3</span>
+                            <span>Neutral / Indiferente</span>
+                        </label>
+                    </div>
+                    <div class="likert-btn relative">
+                        <input type="radio" id="q3_4" name="q3" value="4" class="peer hidden" onchange="updateProgress(); checkFeedbackTrigger('q3');">
+                        <label for="q3_4" class="flex sm:flex-col items-center justify-center p-3 text-center border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50 text-xs text-slate-600 h-full">
+                            <span class="font-bold sm:mb-1 mr-2 sm:mr-0 text-lime-600">4</span>
+                            <span>De acuerdo</span>
+                        </label>
+                    </div>
+                    <div class="likert-btn relative">
+                        <input type="radio" id="q3_5" name="q3" value="5" class="peer hidden" onchange="updateProgress(); checkFeedbackTrigger('q3');">
+                        <label for="q3_5" class="flex sm:flex-col items-center justify-center p-3 text-center border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50 text-xs text-slate-600 h-full">
+                            <span class="font-bold sm:mb-1 mr-2 sm:mr-0 text-emerald-600">5</span>
+                            <span>Totalmente de acuerdo</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div id="q3_feedback_box" class="hidden mt-4 pt-3 border-t border-dashed border-amber-200 bg-amber-50/60 p-3.5 rounded-xl fade-in">
+                    <label for="q3_feedback" class="block text-xs font-semibold text-amber-900 mb-1 flex items-center gap-1.5">
+                        <i class="fa-solid fa-comment-dots text-amber-600"></i>
+                        ¿Qué medida de prevención o seguridad considera prioritaria? (Opcional)
+                    </label>
+                    <textarea id="q3_feedback" name="q3_feedback" rows="2" class="w-full text-xs p-2.5 border border-amber-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none bg-white" placeholder="Ejemplo: Equipo de protección individual, capacitaciones de riesgo, señalización..."></textarea>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="pt-2">
+                <button type="submit" id="submitBtn" class="w-full bg-forza-navy hover:bg-forza-blue text-white font-semibold py-4 px-6 rounded-xl shadow-md transition-all flex items-center justify-center gap-2.5 text-base active:scale-[0.99]">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    <span>Enviar Evaluación Anónima</span>
+                </button>
+            </div>
+        </form>
+
+        <!-- SUCCESS SCREEN -->
+        <div id="successScreen" class="hidden bg-white p-8 rounded-2xl shadow-sm border border-slate-200 text-center fade-in my-6">
+            <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-slate-900 mb-2">¡Evaluación Completada!</h2>
+            <p class="text-slate-600 text-sm max-w-md mx-auto mb-6">
+                Sus respuestas han sido registradas de forma anónima en la plataforma de Recursos Humanos de <strong class="text-forza-navy">FORZA DELIVERY LOGISTIC</strong>.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                <button onclick="resetForm()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold py-2.5 px-5 rounded-lg transition">
+                    Responder de Nuevo
+                </button>
+                <button onclick="toggleDashboard()" class="bg-forza-navy hover:bg-forza-blue text-white text-xs font-semibold py-2.5 px-5 rounded-lg transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-chart-line"></i>
+                    Ver Métricas Consolidadas RH
+                </button>
+            </div>
+        </div>
+
+        <!-- HR DASHBOARD PANEL -->
+        <div id="dashboardPanel" class="hidden bg-white p-6 rounded-2xl shadow-sm border border-slate-200 fade-in my-6">
+            <div class="flex justify-between items-center pb-4 mb-4 border-b border-slate-100">
+                <div>
+                    <h2 class="text-lg font-bold text-forza-navy">Consolidado de Clima Laboral — Recursos Humanos</h2>
+                    <p class="text-xs text-slate-500">Resumen cuantitativo y cualitativo de la evaluación</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="window.print()" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg font-medium transition">
+                        <i class="fa-solid fa-print mr-1"></i> Imprimir / PDF
+                    </button>
+                    <button onclick="toggleDashboard()" class="text-slate-400 hover:text-slate-600 p-1">
+                        <i class="fa-solid fa-xmark text-lg"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 text-center">
+                    <span class="text-xs font-semibold text-slate-500 uppercase">Evaluaciones Recibidas</span>
+                    <p id="dashTotal" class="text-3xl font-black text-forza-navy mt-1">0</p>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 text-center">
+                    <span class="text-xs font-semibold text-slate-500 uppercase">Promedio General</span>
+                    <p id="dashAvg" class="text-3xl font-black text-forza-blue mt-1">0.0 / 5</p>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 text-center">
+                    <span class="text-xs font-semibold text-slate-500 uppercase">Observaciones de Mejora</span>
+                    <p id="dashImprovements" class="text-3xl font-black text-amber-600 mt-1">0</p>
+                </div>
+            </div>
+
+            <div class="space-y-4 mb-6">
+                <h3 class="text-sm font-bold text-slate-800">Puntuación por Reactivo Evaluado:</h3>
+                <div>
+                    <div class="flex justify-between text-xs mb-1">
+                        <span>1. Instalaciones adecuadas y cómodas:</span>
+                        <span id="dashQ1Score" class="font-bold">0.0</span>
+                    </div>
+                    <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                        <div id="dashQ1Bar" class="bg-forza-blue h-2 rounded-full" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between text-xs mb-1">
+                        <span>2. Materiales, equipos y software:</span>
+                        <span id="dashQ2Score" class="font-bold">0.0</span>
+                    </div>
+                    <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                        <div id="dashQ2Bar" class="bg-forza-blue h-2 rounded-full" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between text-xs mb-1">
+                        <span>3. Salud y seguridad en el trabajo:</span>
+                        <span id="dashQ3Score" class="font-bold">0.0</span>
+                    </div>
+                    <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                        <div id="dashQ3Bar" class="bg-forza-blue h-2 rounded-full" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="commentsSection" class="mt-6 pt-4 border-t border-slate-100">
+                <h3 class="text-sm font-bold text-slate-800 mb-3">Retroalimentación Registrada:</h3>
+                <div id="commentsList" class="space-y-2 max-h-48 overflow-y-auto pr-1 text-xs">
+                    <p class="text-slate-400 italic">No hay observaciones registradas por el momento.</p>
+                </div>
+            </div>
+
+            <div class="flex justify-between items-center pt-5 mt-4 border-t border-slate-100">
+                <button onclick="clearData()" class="text-xs text-red-500 hover:text-red-700 underline">
+                    Limpiar registros
+                </button>
+                <button onclick="toggleDashboard()" class="bg-slate-800 text-white text-xs font-semibold py-2 px-4 rounded-lg hover:bg-slate-900 transition">
+                    Cerrar Panel
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER WITH PROMINENT COMPANY SLOGAN -->
+    <footer class="bg-forza-navy text-white border-t-4 border-forza-blue py-8 mt-10">
+        <div class="max-w-4xl mx-auto px-4 text-center space-y-4">
+            
+            <!-- OFFICIAL SLOGAN BOX -->
+            <div class="bg-white/5 border border-forza-accent/30 rounded-2xl p-5 max-w-2xl mx-auto backdrop-blur-xs shadow-inner">
+                <span class="text-[10px] uppercase tracking-widest text-forza-accent font-bold block mb-1.5">
+                    ESLOGAN INSTITUCIONAL
+                </span>
+                <blockquote class="text-base sm:text-lg font-bold italic text-slate-100 leading-relaxed">
+                    "La búsqueda de la eficiencia nos conlleva a descubrir nuevos horizontes"
+                </blockquote>
+            </div>
+
+            <div class="pt-2 text-xs text-slate-300">
+                <p class="font-bold text-white text-sm tracking-wider uppercase">FORZA DELIVERY LOGISTIC</p>
+                <p class="text-forza-accent text-[11px] mt-0.5">Gestión del Talento Humano &bull; Evaluación Organizacional</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let submissions = JSON.parse(localStorage.getItem('forza_hr_evaluations') || '[]');
+
+        function updateProgress() {
+            const form = document.getElementById('hrEvaluationForm');
+            const q1 = form.querySelector('input[name="q1"]:checked');
+            const q2 = form.querySelector('input[name="q2"]:checked');
+            const q3 = form.querySelector('input[name="q3"]:checked');
+
+            let count = 0;
+            if (q1) count++;
+            if (q2) count++;
+            if (q3) count++;
+
+            const percentage = Math.round((count / 3) * 100);
+            document.getElementById('progressBar').style.width = percentage + '%';
+            document.getElementById('progressText').innerText = `Progreso del Formulario: ${percentage}%`;
+            document.getElementById('questionsAnswered').innerText = `${count} de 3 respondidas`;
+        }
+
+        function checkFeedbackTrigger(questionKey) {
+            const selected = document.querySelector(`input[name="${questionKey}"]:checked`);
+            const feedbackBox = document.getElementById(`${questionKey}_feedback_box`);
+            
+            // Show feedback box if user selects "1" (Totalmente en desacuerdo) or "2" (En desacuerdo)
+            if (selected && (selected.value === '1' || selected.value === '2')) {
+                feedbackBox.classList.remove('hidden');
+            } else {
+                feedbackBox.classList.add('hidden');
+            }
+        }
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const form = document.getElementById('hrEvaluationForm');
+            
+            const q1 = parseInt(form.querySelector('input[name="q1"]:checked')?.value || 0);
+            const q2 = parseInt(form.querySelector('input[name="q2"]:checked')?.value || 0);
+            const q3 = parseInt(form.querySelector('input[name="q3"]:checked')?.value || 0);
+
+            const q1_fb = document.getElementById('q1_feedback').value.trim();
+            const q2_fb = document.getElementById('q2_feedback').value.trim();
+            const q3_fb = document.getElementById('q3_feedback').value.trim();
+
+            const responseObj = {
+                timestamp: new Date().toISOString(),
+                q1, q2, q3,
+                q1_fb, q2_fb, q3_fb
+            };
+
+            submissions.push(responseObj);
+            localStorage.setItem('forza_hr_evaluations', JSON.stringify(submissions));
+
+            form.classList.add('hidden');
+            document.getElementById('progressContainer').classList.add('hidden');
+            document.getElementById('successScreen').classList.remove('hidden');
+
+            updateDashboardUI();
+        }
+
+        function resetForm() {
+            const form = document.getElementById('hrEvaluationForm');
+            form.reset();
+            
+            ['q1', 'q2', 'q3'].forEach(q => {
+                document.getElementById(`${q}_feedback_box`).classList.add('hidden');
+            });
+
+            document.getElementById('progressBar').style.width = '0%';
+            document.getElementById('progressText').innerText = 'Progreso del Formulario: 0%';
+            document.getElementById('questionsAnswered').innerText = '0 de 3 respondidas';
+
+            document.getElementById('successScreen').classList.add('hidden');
+            document.getElementById('dashboardPanel').classList.add('hidden');
+            form.classList.remove('hidden');
+            document.getElementById('progressContainer').classList.remove('hidden');
+        }
+
+        function toggleDashboard() {
+            const dash = document.getElementById('dashboardPanel');
+            if (dash.classList.contains('hidden')) {
+                updateDashboardUI();
+                dash.classList.remove('hidden');
+                dash.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                dash.classList.add('hidden');
+            }
+        }
+
+        function updateDashboardUI() {
+            const total = submissions.length;
+            document.getElementById('dashTotal').innerText = total;
+
+            if (total === 0) {
+                document.getElementById('dashAvg').innerText = "0.0 / 5";
+                document.getElementById('dashImprovements').innerText = "0";
+                document.getElementById('dashQ1Score').innerText = "0.0";
+                document.getElementById('dashQ2Score').innerText = "0.0";
+                document.getElementById('dashQ3Score').innerText = "0.0";
+                document.getElementById('dashQ1Bar').style.width = '0%';
+                document.getElementById('dashQ2Bar').style.width = '0%';
+                document.getElementById('dashQ3Bar').style.width = '0%';
+                document.getElementById('commentsList').innerHTML = '<p class="text-slate-400 italic">No hay observaciones registradas por el momento.</p>';
+                return;
+            }
+
+            let sumQ1 = 0, sumQ2 = 0, sumQ3 = 0;
+            let comments = [];
+
+            submissions.forEach(s => {
+                sumQ1 += s.q1;
+                sumQ2 += s.q2;
+                sumQ3 += s.q3;
+
+                if (s.q1_fb) comments.push({ q: 'Instalaciones', text: s.q1_fb });
+                if (s.q2_fb) comments.push({ q: 'Equipos/Software', text: s.q2_fb });
+                if (s.q3_fb) comments.push({ q: 'Seguridad/Salud', text: s.q3_fb });
+            });
+
+            const avgQ1 = (sumQ1 / total).toFixed(1);
+            const avgQ2 = (sumQ2 / total).toFixed(1);
+            const avgQ3 = (sumQ3 / total).toFixed(1);
+            const totalAvg = ((parseFloat(avgQ1) + parseFloat(avgQ2) + parseFloat(avgQ3)) / 3).toFixed(1);
+
+            document.getElementById('dashAvg').innerText = `${totalAvg} / 5`;
+            document.getElementById('dashImprovements').innerText = comments.length;
+
+            document.getElementById('dashQ1Score').innerText = `${avgQ1} / 5.0`;
+            document.getElementById('dashQ2Score').innerText = `${avgQ2} / 5.0`;
+            document.getElementById('dashQ3Score').innerText = `${avgQ3} / 5.0`;
+
+            document.getElementById('dashQ1Bar').style.width = `${(avgQ1 / 5) * 100}%`;
+            document.getElementById('dashQ2Bar').style.width = `${(avgQ2 / 5) * 100}%`;
+            document.getElementById('dashQ3Bar').style.width = `${(avgQ3 / 5) * 100}%`;
+
+            const commentsContainer = document.getElementById('commentsList');
+            if (comments.length === 0) {
+                commentsContainer.innerHTML = '<p class="text-slate-400 italic">No hay observaciones registradas en los envíos.</p>';
+            } else {
+                commentsContainer.innerHTML = comments.map(c => `
+                    <div class="p-2 bg-slate-50 border-l-2 border-amber-500 rounded text-slate-700">
+                        <span class="font-semibold text-amber-900">[${c.q}]:</span> ${c.text}
+                    </div>
+                `).join('');
+            }
+        }
+
+        function clearData() {
+            if (confirm("¿Desea borrar todos los registros acumulados?")) {
+                submissions = [];
+                localStorage.removeItem('forza_hr_evaluations');
+                updateDashboardUI();
+            }
+        }
+    </script>
+</body>
+</html>
